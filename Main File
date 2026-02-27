@@ -2,7 +2,7 @@ import nltk
 nltk.download ('all')
 import requests 
 from bs4 import BeautifulSoup
-form nltk.tokenize import word_tockenize 
+form nltk.tokenize import word_tokenize 
 from nltk.corpus import stopwords 
 import re 
 
