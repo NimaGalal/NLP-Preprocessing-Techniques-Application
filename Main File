@@ -1,1 +1,23 @@
+import nltk 
+nltk.download ('all')
+import requests 
+from bs4 import BeautifulSoup
+form nltk.tokenize import word_tockenize 
+from nltk.corpus import stopwords 
+import re 
 
+
+
+#Tockenization
+
+#Lowercasing 
+
+#Stopword Removal
+
+#Removing Special Characters,Numbers and Punctuation
+ 
+#Lemmatization 
+
+#POS Tagging
+
+#Stemming 
