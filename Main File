@@ -1,23 +1,75 @@
-import nltk 
-nltk.download ('all')
-import requests 
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+import csv
+import requests
 from bs4 import BeautifulSoup
-form nltk.tokenize import word_tockenize 
-from nltk.corpus import stopwords 
-import re 
+import nltk
+nltk.download('punkt_tab')
+import string
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+
+#Scrapping Websites 
+
+request=requests.get('https://books.toscrape.com/catalogue/the-secret-garden_413/index.html')
+source=request.content
+print(request)
+soup=BeautifulSoup(source,'lxml')
+print(soup)
+Book_name=soup.find('h1').text
+print(Book_name)
+book_price=soup.find('p',class_='price_color').text
+print(book_price)
+divs = soup.find_all("div", id="content_inner")
+description = soup.find('div', id='product_description')
+product_description = description.find_next_sibling('p').text
+print(product_description)
+len(product_description)
+
+#Scrapping Different Website
+
+request=requests.get('https://quotes.toscrape.com/tag/life/')
+source=request.content
+print(request)
+soup=BeautifulSoup(source,'lxml')
+print(soup)
+paragraphs = soup.find_all("span", class_="text")
+print(paragraphs)
+scraped = []
+q=''
+for p in paragraphs:
+    # paragraphs = div.find_all("span")
+    # print(paragraphs)
+    scraped.extend(p)
+for p in scraped:
+   q+=p.get_text()
+
+#print(scraped)
+print(q)
+len(q)
+
+#Combine Text Together 
+
+txt = product_description+q
+print("Text",txt)
+print("Length",len(txt))
+txt= set(txt.split())
+print("Text: ",txt)
+print("Length: ",len(txt))
+unique_word = ''
+for i in txt:
+  unique_word+=i+' '
+print("Unique Word: ",unique_word)
+txt = unique_word
+print("Text: ",txt)
+print("Length: ",len(txt))
+
+#Preprocessing Techniques 
 
 
 
-#Tockenization
-
-#Lowercasing 
-
-#Stopword Removal
-
-#Removing Special Characters,Numbers and Punctuation
- 
-#Lemmatization 
-
-#POS Tagging
-
-#Stemming 
