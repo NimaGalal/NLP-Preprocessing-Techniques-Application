@@ -1,75 +1,33 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-import warnings
-warnings.filterwarnings('ignore')
-import csv
-import requests
+import nltk 
+nltk.download ('all')
+import requests 
 from bs4 import BeautifulSoup
-import nltk
-nltk.download('punkt_tab')
-import string
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-nltk.download('stopwords')
+form nltk.tokenize import word_tockenize 
+from nltk.corpus import stopwords 
+import re 
 
-#Scrapping Websites 
+#Scrapping The 2 Websites and Combining them together 
+def Scrape_Website(url) :
+    response = requests.get(url)
+    soup= BeautifulSoup (response.text , 'html.parser')
+    paragraphs = soup.find_all ('p')
+    return ' '.join([p.get_text() for p in paragraphs])
+    
 
-request=requests.get('https://books.toscrape.com/catalogue/the-secret-garden_413/index.html')
-source=request.content
-print(request)
-soup=BeautifulSoup(source,'lxml')
-print(soup)
-Book_name=soup.find('h1').text
-print(Book_name)
-book_price=soup.find('p',class_='price_color').text
-print(book_price)
-divs = soup.find_all("div", id="content_inner")
-description = soup.find('div', id='product_description')
-product_description = description.find_next_sibling('p').text
-print(product_description)
-len(product_description)
+text1 = Scrape_Website ('https://en.wikipedia.org/wiki/Artificial_intelligence')
+text2= Scrape_Website ('https://en.wikipedia.org/wiki/Machine_learning')
+combined_text =  text1 + ' ' + text2
 
-#Scrapping Different Website
+#Tockenization
 
-request=requests.get('https://quotes.toscrape.com/tag/life/')
-source=request.content
-print(request)
-soup=BeautifulSoup(source,'lxml')
-print(soup)
-paragraphs = soup.find_all("span", class_="text")
-print(paragraphs)
-scraped = []
-q=''
-for p in paragraphs:
-    # paragraphs = div.find_all("span")
-    # print(paragraphs)
-    scraped.extend(p)
-for p in scraped:
-   q+=p.get_text()
+#Lowercasing 
 
-#print(scraped)
-print(q)
-len(q)
+#Stopword Removal
 
-#Combine Text Together 
+#Removing Special Characters,Numbers and Punctuation
+tokens = [re.sub(r'[^a-z]','', word )for word in tokens]
+tokens = [word for word in tokens if word != '']
+print ("After removing special characters, numbers and punctuation" , tokens [:10]) 
 
-txt = product_description+q
-print("Text",txt)
-print("Length",len(txt))
-txt= set(txt.split())
-print("Text: ",txt)
-print("Length: ",len(txt))
-unique_word = ''
-for i in txt:
-  unique_word+=i+' '
-print("Unique Word: ",unique_word)
-txt = unique_word
-print("Text: ",txt)
-print("Length: ",len(txt))
-
-#Preprocessing Techniques 
-
-
+ 
 
